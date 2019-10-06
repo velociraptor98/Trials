@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "SCharacter.generated.h"
 
+class UCameraComponent;
+class USpringArmComponent;
+
 UCLASS()
 class TRIALS_API ASCharacter : public ACharacter
 {
@@ -20,6 +23,13 @@ protected:
 	virtual void BeginPlay() override;
 	void MoveForward(float Val);
 	void MoveRight(float Val);
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Components")
+	UCameraComponent* CameraComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	USpringArmComponent* ArmComp;
+	void BeginCrouch();
+	void EndCrouch();
+	void Jumping();
 
 public:	
 	// Called every frame
