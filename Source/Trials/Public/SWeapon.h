@@ -21,6 +21,7 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Components")
 	USkeletalMeshComponent* MeshComp;
+	UFUNCTION(BlueprintCallable,Category="Guns")
 	void Fire();
 
 public:	

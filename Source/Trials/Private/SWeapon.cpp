@@ -3,6 +3,7 @@
 
 #include "public/SWeapon.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 ASWeapon::ASWeapon()
@@ -31,11 +32,16 @@ void ASWeapon::Fire()
 		FVector EyesLoc;
 		FRotator EyesRot;
 		Owner->GetActorEyesViewPoint(EyesLoc, EyesRot);
+		//FVector TraceEnd = EyesLoc + (EyesRot.Vector() * 10000);
 		FCollisionQueryParams Query;
 		Query.AddIgnoredActor(Owner);
 		Query.AddIgnoredActor(this);
 		Query.bTraceComplex = true;
-		GetWorld()->LineTraceSingleByChannel(Hit,EyesLoc,EyesLoc+(EyesRot.Vector()*1000),ECC_Visibility,Query,);
+		if(GetWorld()->LineTraceSingleByChannel(Hit,EyesLoc,EyesLoc+(EyesRot.Vector()*1000),ECC_Visibility,Query))
+		{
+			
+		}
+		DrawDebugLine(GetWorld(), EyesLoc, EyesLoc + (EyesRot.Vector() * 1000), FColor::White, false, 1.0f, 0, 1.0f);
 	}
 }
 
