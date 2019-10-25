@@ -7,6 +7,8 @@
 #include "SWeapon.generated.h"
 
 class USkeletalMesh;
+class UParticleSystem;
+class UDamageType;
 UCLASS()
 class TRIALS_API ASWeapon : public AActor
 {
@@ -23,6 +25,15 @@ protected:
 	USkeletalMeshComponent* MeshComp;
 	UFUNCTION(BlueprintCallable,Category="Guns")
 	void Fire();
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Guns")
+	TSubclassOf<UDamageType> DamageType;
+	UPROPERTY(VisibleDefaultsOnly,BlueprintReadOnly,Category="Guns")
+	FName MuzzleSocketName;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
+	UParticleSystem* Muzzle;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
+	UParticleSystem* ImpactEffect;
+
 
 public:	
 	// Called every frame
