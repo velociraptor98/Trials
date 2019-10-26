@@ -33,8 +33,8 @@ protected:
 	UParticleSystem* Muzzle;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
 	UParticleSystem* ImpactEffect;
-
-
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
+	UParticleSystem* Tracer;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
