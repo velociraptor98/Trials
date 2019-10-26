@@ -9,6 +9,7 @@
 class USkeletalMesh;
 class UParticleSystem;
 class UDamageType;
+class UCameraShake;
 UCLASS()
 class TRIALS_API ASWeapon : public AActor
 {
@@ -19,8 +20,6 @@ public:
 	ASWeapon();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Components")
 	USkeletalMeshComponent* MeshComp;
 	UFUNCTION(BlueprintCallable,Category="Guns")
@@ -35,8 +34,9 @@ protected:
 	UParticleSystem* ImpactEffect;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
 	UParticleSystem* Tracer;
+	UPROPERTY(EditDefaultsOnly,Category="Guns")
+	TSubclassOf<UCameraShake> OnFireShake;
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	
 
 };

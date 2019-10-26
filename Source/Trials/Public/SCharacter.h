@@ -23,6 +23,8 @@ protected:
 	virtual void BeginPlay() override;
 	void MoveForward(float Val);
 	void MoveRight(float Val);
+	void BeginZoom();
+	void EndZoom();
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Components")
 	UCameraComponent* CameraComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -31,6 +33,12 @@ protected:
 	void EndCrouch();
 	void Jumping();
 
+	bool bCanZoom;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Components")
+	float ZoomedFOV;
+	float DefaultFOV;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(ClampMin=0.1,ClampMax=100))
+	float ZoomInterpSpeed;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
