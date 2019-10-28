@@ -8,6 +8,8 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Camera/CameraShake.h"
+#include "PhysicalMaterials/PhysicalMaterial.h"
+#include "trials.h"
 
 
 // Sets default values
@@ -19,6 +21,7 @@ ASWeapon::ASWeapon()
 	MeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	RootComponent = MeshComp;
 	MuzzleSocketName = "MuzzleSocket";
+	BaseDamage = 20.0f;
 }
 
 
@@ -38,16 +41,39 @@ void ASWeapon::Fire()
 		Query.AddIgnoredActor(Owner);
 		Query.AddIgnoredActor(this);
 		Query.bTraceComplex = true;
+		Query.bReturnPhysicalMaterial = true;
 		FHitResult Hit;
 		FVector TracerEnd = EyesLoc + (EyesRot.Vector() * 10000);
-		if(GetWorld()->LineTraceSingleByChannel(Hit,EyesLoc,EyesLoc+(EyesRot.Vector()*10000),ECC_Visibility,Query))
+		if (GetWorld()->LineTraceSingleByChannel(Hit, EyesLoc, EyesLoc + (EyesRot.Vector() * 10000), COLLISION_WEAPON, Query))
 		{
 			AActor* HitActor = Hit.GetActor();
-			UGameplayStatics::ApplyPointDamage(HitActor,20.0f,ShootDirection,Hit,Owner->GetInstigatorController(),this,DamageType);
-			if (ImpactEffect)
+			float DamageMul = 4.0f;
+			float ActualDamage = BaseDamage;
+			EPhysicalSurface SurfaceType = UPhysicalMaterial::DetermineSurfaceType(Hit.PhysMaterial.Get());
+			switch(SurfaceType)
 			{
-				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
+			case SurfaceType1:
+				if (DefaultImpactEffect)
+				{
+					ActualDamage = BaseDamage;
+					UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), FleshImpactEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
+				}
+				break;
+			case SurfaceType2:
+				if(FleshImpactEffect)
+				{
+					ActualDamage *= DamageMul;
+					UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), FleshImpactEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
+				}
+				break;
+			default:
+				if (DefaultImpactEffect)
+				{
+					UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DefaultImpactEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
+				}
+				break;
 			}
+			UGameplayStatics::ApplyPointDamage(HitActor, ActualDamage, ShootDirection, Hit, Owner->GetInstigatorController(), this, DamageType);
 			TracerEnd = Hit.ImpactPoint;
 		}
 		if (DebugWeaponDrawing > 0)

@@ -31,11 +31,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
 	UParticleSystem* Muzzle;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
-	UParticleSystem* ImpactEffect;
+	UParticleSystem* DefaultImpactEffect;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
+	UParticleSystem* FleshImpactEffect;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
 	UParticleSystem* Tracer;
 	UPROPERTY(EditDefaultsOnly,Category="Guns")
 	TSubclassOf<UCameraShake> OnFireShake;
+	UPROPERTY(EditDefaultsOnly, Category = "Guns")
+		float BaseDamage;
 public:	
 	
 
