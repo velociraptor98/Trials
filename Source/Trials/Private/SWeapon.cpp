@@ -7,7 +7,6 @@
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Camera/CameraShake.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "trials.h"
 
@@ -49,7 +48,7 @@ void ASWeapon::Fire()
 			AActor* HitActor = Hit.GetActor();
 			float DamageMul = 4.0f;
 			float ActualDamage = BaseDamage;
-			EPhysicalSurface SurfaceType = UPhysicalMaterial::DetermineSurfaceType(Hit.PhysMaterial.Get());
+			/*EPhysicalSurface SurfaceType = UPhysicalMaterial::DetermineSurfaceType(Hit.PhysMaterial.Get());
 			switch(SurfaceType)
 			{
 			case SurfaceType1:
@@ -72,7 +71,7 @@ void ASWeapon::Fire()
 					UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DefaultImpactEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 				}
 				break;
-			}
+			}*/
 			UGameplayStatics::ApplyPointDamage(HitActor, ActualDamage, ShootDirection, Hit, Owner->GetInstigatorController(), this, DamageType);
 			TracerEnd = Hit.ImpactPoint;
 		}
@@ -100,7 +99,6 @@ void ASWeapon::Fire()
 			APlayerController* PC = Cast<APlayerController>(MOwner->GetController());
 			if(PC)
 			{
-				PC->ClientPlayCameraShake(OnFireShake);
 			}
 		}
 	}

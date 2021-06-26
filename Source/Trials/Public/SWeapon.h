@@ -36,8 +36,8 @@ protected:
 	UParticleSystem* FleshImpactEffect;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
 	UParticleSystem* Tracer;
-	UPROPERTY(EditDefaultsOnly,Category="Guns")
-	TSubclassOf<UCameraShake> OnFireShake;
+//	UPROPERTY(EditDefaultsOnly,Category="Guns")
+//	TSubclassOf<UCameraShake> OnFireShake;
 	UPROPERTY(EditDefaultsOnly, Category = "Guns")
 		float BaseDamage;
 public:	
